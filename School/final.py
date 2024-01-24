@@ -31,7 +31,7 @@ def multiples_of_5() -> None:
             print(i)
 
 
-def dragon_heads(age: int) -> int:
+def dragon_heads(age: int) -> str:
     """Вычисляет, сколько у дракона будет голов.
 
     Параметры:
@@ -41,8 +41,11 @@ def dragon_heads(age: int) -> int:
         int: Количество голов
     """
     if age < 50:
-        return 3 * age
-    return 150 + 2 * (age - 50)
+        heads: int = 3 * age
+    else:
+        heads: int = 150 + 2 * (age - 50)
+    eyes: int = 2 * heads
+    return f"Голов: {heads}, глаз: {eyes}"
 
 
 def input_max(length: int) -> float:
