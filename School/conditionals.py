@@ -24,7 +24,7 @@ def var_tweaker(a: int, b: int) -> None:
     Если a равно b, а и b заменяются на их сумму.
     Иначе, а и b заменяются на ноль.
 
-    Парамтеры:
+    Параметры:
         a (int): Первое число
         b (int): Второе число
     """
@@ -36,16 +36,16 @@ def var_tweaker(a: int, b: int) -> None:
     print(f"a: {a}, b: {b}")
 
 
-def quadratic_equation(a: float, b: float, c: float) -> tuple:
+def quadratic_equation(a: float, b: float, c: float) -> tuple[float, float]:
     """Вычисляет корни квадратного уравнения.
 
-    Парамтеры:
-    a (float): Коэффициент a
-    b (float): Коэффициент b
-    c (float): Свободный член
+    Параметры:
+        a (float): Коэффициент a
+        b (float): Коэффициент b
+        c (float): Свободный член
 
     Возвращает:
-    tuple: Корни уравнения
+        tuple: Корни уравнения
     """
     d = (b**2) - (4 * a * c)
     x1 = (-b - d**0.5) / (2 * a)
@@ -78,11 +78,11 @@ def get_quadrant() -> None:
 def num_to_word(num: int) -> str:
     """Переводит число от 0 до 9 в слово.
 
-    Парамтеры:
-    num (int): Число от 0 до 9
+    Параметры:
+        num (int): Число от 0 до 9
 
     Возвращает:
-    str: Слово, соответствующее числу
+        str: Слово, соответствующее числу
     """
     words = (
         "ноль",
