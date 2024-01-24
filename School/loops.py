@@ -1,3 +1,6 @@
+"""Задания по циклам."""
+
+
 def range_print(begin: int, end: int) -> None:
     """
     Выводит числа в диапазоне от begin до end.
@@ -105,7 +108,7 @@ def print_triangle() -> None:
         for _ in range(0, spaces):
             print(end=" ")
         spaces -= 1
-        for _ in range(0, i+1):
+        for _ in range(0, i + 1):
             print("^ ", end="")
         print("\n")
         i += 1
