@@ -63,7 +63,7 @@ def get_quadrant() -> None:
         except ValueError:
             print("Неверный ввод.")
             continue
-    pos = (x >= 0, y >= 0)
+    pos: tuple[bool, bool] = (x >= 0, y >= 0)
     match pos:
         case (True, True):
             print("1")
@@ -113,8 +113,8 @@ def points_distance() -> None:
         except ValueError:
             print("Неверный ввод.")
             continue
-    b_distance = abs(b - a)
-    c_distance = abs(c - a)
+    b_distance: float = abs(b - a)
+    c_distance: float = abs(c - a)
     if b_distance > c_distance:
         print(f"C; {c_distance}")
     else:
@@ -140,9 +140,9 @@ def main() -> None:
             b = int(input("b: "))
             var_tweaker(a, b)
         case "3":
-            a = int(input("a: "))
-            b = int(input("b: "))
-            c = int(input("c: "))
+            a = float(input("a: "))
+            b = float(input("b: "))
+            c = float(input("c: "))
             x1, x2 = quadratic_equation(a, b, c)
             print(f"x1: {x1}, x2: {x2}")
         case "4":
