@@ -11,11 +11,10 @@ double resistanceFinder(vector<double> resistances) {
     return pow(sum, -1);
 }
 
-double circleArea(double length) {
+double circleArea(double circumference) {
     const double pi = 3.141;
-    double radius, area;
-    radius = length / (2 * pi);
-    area = pi * pow(radius, 2);
+    double area;
+    area = pow(circumference, 2) / (pi * 4);
     return area;
 }
 
@@ -23,7 +22,7 @@ double movement(double v, double t, double a) {
     double S;
     S = v * t + (a * pow(t, 2)) / 2;
     return S;
-};
+}
 
 int main(int argc, char const *argv[]) {
     int mode;
