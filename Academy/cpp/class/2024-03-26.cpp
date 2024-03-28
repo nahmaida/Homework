@@ -54,6 +54,7 @@ int returnMax(int num1, int num2) {
 }
 
 int main(int argc, char const *argv[]) {
-    cout << returnMax(2, 3);
+    vector<vector<int>> matrix = fillMatrix(5);
+    cout << matrixSum(matrix, 5);
     return 0;
 }
