@@ -25,8 +25,8 @@ vector<vector<int>> fillMatrix(int size) {
     vector<vector<int>> matrix = createMatrix(size, size);
     srand(time(NULL));
     int upperBound = 100;
-    for (int i = 0; i <= size; i++) {
-        for (int j = 0; j <= size; j++) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
             matrix[i][j] = rand() % upperBound + 1;
             cout << matrix[i][j] << " ";
         }
@@ -37,7 +37,7 @@ vector<vector<int>> fillMatrix(int size) {
 
 int matrixSum(vector<vector<int>> matrix, int size) {
     int sum = 0;
-    for (int i = 0; i <= size; i++) {
+    for (int i = 0; i < size; i++) {
         for (int j = 0; j <= size; j++) {
             sum += matrix[i][j];
         }
