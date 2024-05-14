@@ -17,12 +17,9 @@ void bubbleSort(int arr[]) {
 void insertionSort(int arr[]) {
     int length = sizeof(arr) / sizeof(arr[0]);
     int sorted[length];
+    int index;
+    for (int j = 0; j < length; j++) {
 
-    for (int i = 0; i <= length; i++) {
-        int index;
-        for (int j = 0; j < length; j++) {
-            sorted[]
-        }
     }
 }
 
