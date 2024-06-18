@@ -3,13 +3,13 @@
 using namespace std;
 
 struct Adress {
-    char* city;
-    char* street;
-    char* house;
-    char* appartment;
+    char city[256];
+    char street[256];
+    char house[256];
+    char appartment[256];
 };
 
-Adress getAdress() {
+Adress getAddress() {
     Adress a;
     cout << "Город:\n>> ";
     cin >> a.city;
@@ -42,7 +42,7 @@ int subtract(int a, int b) {
 
 int main(int argc, char const *argv[]) {
     cout << subtract(5, 3) << endl;
-    Adress a = getAdress();
+    Adress a = getAddress();
     writeAdress(a);
     return 0;
 }
