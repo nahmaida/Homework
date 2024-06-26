@@ -1,89 +1,111 @@
 #include <iostream>
-#include <vector>
+#include <stack>
+#include <string>
 using namespace std;
 
-void calendar(int year) {
-    cout << "Год ";
-    switch (year % 12) {
-        case 0: cout << "крысы"; break;
-        case 1: cout << "зайца"; break;
-        case 2: cout << "коровы"; break;
-        case 3: cout << "тигра"; break;
-        case 4: cout << "лошади"; break;
-        case 5: cout << "змеи"; break;
-        case 6: cout << "овцы"; break;
-        case 7: cout << "дракона"; break;
-        case 8: cout << "обезьяны"; break;
-        case 9: cout << "петуха"; break;
-        case 10: cout << "собаки"; break;
-        case 11: cout << "свиньи"; break;
-    }
-}
+// алгоритмом сортировочной станции и какими-то перевернутыми поляками
+// не слишком жестоко ли
 
-void calendar(string month) {
-    if (month == "Март" || month == "Апрель") {
-        cout << "Овен";
-    } else if (month == "Май") {
-        cout << "Телец";
-    } else if (month == "Июнь") {
-        cout << "Близнецы";
-    } else if (month == "Июль") {
-        cout << "Рак";
-    } else if (month == "Август") {
-        cout << "Лев";
-    } else if (month == "Сентябрь") {
-        cout << "Дева";
-    } else if (month == "Октябрь") {
-        cout << "Весы";
-    } else if (month == "Ноябрь") {
-        cout << "Скорпион";
-    } else if (month == "Декабрь") {
-        cout << "Стрелец";
-    } else if (month == "Январь") {
-        cout << "Козерог";
-    } else if (month == "Февраль") {
-        cout << "Водолей";
-    } else {
-        cout << "Неверный месяц";
-    }
-}
+class Calc {
+   public:
+    int evaluate(string expression) {
+        int i;
+        stack<int> numbers;
+        stack<char> ops;
 
-double arr(vector<int> nums) {
-    double sum = 0;
-    for (int i = 0; i < nums.size(); i++) {
-        sum += nums[i];
-    }
-    return sum / nums.size();
-}
+        for (i = 0; i < expression.length(); i++) {
+            if (expression[i] == ' ') {
+                continue;
+            } else if (expression[i] == '(') {
+                ops.push(expression[i]);
+            } else if (isdigit(expression[i])) {
+                int val = 0;
 
-double arr(vector<double> nums) {
-    double max = nums[0];
-    for (int i = 1; i < nums.size(); i++) {
-        if (nums[i] > max) {
-            max = nums[i];
+                while (i < expression.length() && isdigit(expression[i])) {
+                    val = (val * 10) + (expression[i] - '0');
+                    i++;
+                }
+                numbers.push(val);
+            }
+
+            else if (expression[i] == ')') {
+                while (!ops.empty() && ops.top() != '(') {
+                    int val2 = numbers.top();
+                    numbers.pop();
+
+                    int val1 = numbers.top();
+                    numbers.pop();
+
+                    char op = ops.top();
+                    ops.pop();
+                    numbers.push(maths(val1, val2, op));
+                }
+
+                ops.pop();
+            }
+
+            else {
+                while (!ops.empty() &&
+                       operators(ops.top()) >= operators(expression[i])) {
+                    int val2 = numbers.top();
+                    numbers.pop();
+
+                    int val1 = numbers.top();
+                    numbers.pop();
+
+                    char op = ops.top();
+                    ops.pop();
+                    numbers.push(maths(val1, val2, op));
+                }
+                ops.push(expression[i]);
+            }
+        }
+
+        while (!ops.empty()) {
+            int val2 = numbers.top();
+            numbers.pop();
+
+            int val1 = numbers.top();
+            numbers.pop();
+
+            char op = ops.top();
+            ops.pop();
+            numbers.push(maths(val1, val2, op));
+        }
+        return numbers.top();
+    }
+
+   private:
+    int operators(char op) {
+        if (op == '+' || op == '-') {
+            return 1;
+        } else if (op == '*' || op == '/') {
+            return 2;
+        } else {
+            return 0;
         }
     }
-    return max;
-}
 
-double arr(vector<float> nums) {
-    double product = 1;
-    for (int i = 0; i < nums.size(); i++) {
-        product *= nums[i];
+    int maths(int a, int b, char op) {
+        switch (op) {
+            case '+':
+                return a + b;
+            case '-':
+                return a - b;
+            case '*':
+                return a * b;
+            case '/':
+                return a / b;
+        }
+        return 0;
     }
-    return product;
-}
+};
 
-int main(int argc, char const *argv[]) {
-    calendar(2000);
-    cout << endl;
-    calendar("Май");
-    cout << endl;
-    vector<int> nums = {1, 2, 3, 4, 5};
-    cout << arr(nums) << endl;
-    vector<double> nums1 = {90, 80, 70, 60, 50};
-    cout << arr(nums1) << endl;
-    vector<float> nums2 = {1.1f, 2.2f, 3.3f, 4.4f, 5.5f};
-    cout << arr(nums2) << endl;
+int main() {
+    Calc calc;
+    cout << calc.evaluate("10 + 10 * 10") << "\n";
+    cout << calc.evaluate("3 + 4 * 2 + ( 23 - 5 )") << "\n";
+    cout << calc.evaluate("100 * ( 2 + 12 )") << "\n";
+    cout << calc.evaluate("100 * ( 5 + 8 ) / 7") << "\n";
     return 0;
 }
