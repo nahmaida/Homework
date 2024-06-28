@@ -4,20 +4,20 @@ using namespace std;
 long longestCollatz() {
     int maxSteps = 1;
     long maxNum = 1;
-    for (int i = 2; i < 1000000; i++) {
+    for (int i = 2; i < 100; i++) {
         int num = i;
         int steps = 0;
-        while (i != 1) {
+        while (num != 1) {
             steps++;
-            if (i % 2) {
-                i = 3*i + 1;
+            if (num % 2) {
+                num = 3*num + 1;
             } else {
-                i /= 2;
+                num /= 2;
             }
         }
         if (steps > maxSteps) {
             maxSteps = steps;
-            maxNum = num;
+            maxNum = i;
         }
     }
     return maxNum;
