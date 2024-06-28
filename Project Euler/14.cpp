@@ -4,9 +4,9 @@ using namespace std;
 long longestCollatz() {
     int maxSteps = 1;
     long maxNum = 1;
-    for (int i = 2; i < 100; i++) {
-        int num = i;
-        int steps = 0;
+    for (long i = 2; i < 1000000; i++) {
+        long num = i;
+        int steps = 1;
         while (num != 1) {
             steps++;
             if (num % 2) {
@@ -20,6 +20,7 @@ long longestCollatz() {
             maxNum = i;
         }
     }
+    cout << maxSteps << endl;
     return maxNum;
 }
 
