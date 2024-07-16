@@ -1,0 +1,6 @@
+The aura would probably be orange or yellow.
+The dataset contains the 100 most streamed songs, which are typically energetic and, well, popular, leading to an orange or yellow aura.
+However, this wouldn't accurately represent the listener's true aura.
+Actual auras are calculated using the "moods" of songs, which are difficult to determine using just tempo, energy, and similar metrics.
+
+Predicting the moods of songs and then determining a user's aura color would make for a pretty fun machine learning project.
