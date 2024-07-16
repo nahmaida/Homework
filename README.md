@@ -1,2 +1,7 @@
-# Homework
-В папке School - отдельно задания из трёх файлов, можно сразу проверить все в main.py
+# Literally almost everything I coded after 2023
+it's finally time to change the readme.
+Languages used:
+>> Python
+>> C
+>> C++
+>> SQL (sqlite3)
