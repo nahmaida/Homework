@@ -2,7 +2,9 @@
 it's finally time to change the readme.
 
 Languages used:
-> Python
-> C
-> C++
-> SQL (sqlite3)
+* Python
+* C
+* C++
+* SQL (sqlite3)
+* HTML/CSS
+* JS
