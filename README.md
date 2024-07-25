@@ -2,9 +2,9 @@
 it's finally time to change the readme.
 
 Languages used:
-* Python
+* Python (+ flask)
 * C
 * C++
 * SQL (sqlite3)
-* HTML/CSS
+* HTML/CSS (+ jinja)
 * JS
