@@ -103,9 +103,9 @@ class Calc {
 
 int main() {
     Calc calc;
-    cout << calc.evaluate("10 + 10 * 10") << "\n";
-    cout << calc.evaluate("3 + 4 * 2 + ( 23 - 5 )") << "\n";
+    cout << calc.evaluate("10 + 9 * 10") << "\n";
+    cout << calc.evaluate("3 + 1 / 2 + ( 23 - 5 )") << "\n";
     cout << calc.evaluate("100 * ( 2 + 12 )") << "\n";
-    cout << calc.evaluate("100 * ( 5 + 8 ) / 7") << "\n";
+    cout << calc.evaluate("100 * ( 45 + 8 ) / 7") << "\n";
     return 0;
 }
