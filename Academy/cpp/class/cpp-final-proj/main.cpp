@@ -29,8 +29,10 @@ enum habitableType {
     Горный,
     Тундра
 };
+
 // вектор возможных названий для систем
 vector<string> starNames = {};
+
 // enum ресурсов
 enum resource { Минералы, Энергия, Металлы, Блага };
 
@@ -280,7 +282,7 @@ class Galaxy {
 
     void printMap() const {
         const int maxHeight = 50;  // максимальная высота карты
-        const int maxWidth = 120;  // максимальная ширина карты
+        const int maxWidth = 150;  // максимальная ширина карты
 
         // динамическое создание карты
         vector<vector<string>> map(maxHeight, vector<string>(maxWidth, " "));
@@ -288,8 +290,8 @@ class Galaxy {
         // рисуем системы
         for (const System& system : systems) {
             string uninhabitableName =
-                "\033[1;33mS\033[0m";  // желтая если нет обитаемых систем
-            string inhabitableName = "\033[30;42mS\033[0m";  // зеленая если есть
+                "\033[1;91mS\033[0m";  // желтая если нет обитаемых систем
+            string inhabitableName = "\033[1;92mS\033[0m";  // зеленая если есть
             string name =
                 (system.hasHabitables()) ? inhabitableName : uninhabitableName;
 
