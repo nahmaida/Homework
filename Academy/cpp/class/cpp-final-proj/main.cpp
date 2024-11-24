@@ -158,6 +158,7 @@ class Planet : public CelestialBody {
 
     bool isHabitable() const { return habitable; }
     int getPopulation() const { return population; }
+    vector<Building> getBuildings() const { return buildings; }
     habitableType getType() const { return type; }
 };
 
@@ -200,6 +201,7 @@ class System : public CelestialBody {
 
     void setLocation(Point point) { location = point; }
     Point getLocation() const { return location; }
+    vector<Planet> getPlanets() const { return planets; }
 };
 
 // галактика с вектором систем
@@ -207,27 +209,54 @@ class Galaxy {
     int size;
     vector<System> systems;
     vector<Line> connections;  // хранит гиперлинии между системами
+    vector<vector<string>> map;
 
    public:
-    Galaxy(int size) : size(size) {}
+    Galaxy(int size) : size(size), systems({}), connections({}), map({}) {}
 
+    // заполняет галактику
     void fill() {
         for (int i = 0; i < size; i++) {
+            // выбирает случайное название и кол-во планет
             string name = starNames[rand() % starNames.size()];
             int planetCount = rand() % 6 + 1;
+
             System system(name, planetCount + 1);
+
+            // Заполняет каждую систему
             system.fill();
             systems.push_back(system);
         }
 
+        // генерирует расположение для каждой системы
         vector<Point> points = sunflower(systems.size());
         for (int j = 0; j < points.size(); j++) {
             systems[j].setLocation(points[j]);
         }
 
+        // соединяет системы с соседями
         connectSystems();
+
+        // генерирует карту
+        generateMap();
     }
 
+    // выводит карту
+    void printMap() const {
+        // печатаем карту
+        for (const auto& row : map) {
+            for (const auto& cell : row) {
+                cout << cell;
+            }
+            cout << endl;
+        }
+    }
+
+    vector<System> getSystems() const { return systems; }
+    vector<Line> getConnections() const { return connections; }
+    int getSize() const { return size; }
+
+   private:
     void connectSystems() {
         set<pair<int, int>>
             addedConnections;  // чтобы избежать дублирования соединений
@@ -257,13 +286,12 @@ class Galaxy {
 
             // перемешивание соседних систем для случайного выбора
             std::shuffle(nearbySystems.begin(), nearbySystems.end(), rng);
-
             // случайный выбор 1–3 соседей для соединения
             int numConnections = min((int)nearbySystems.size(), rand() % 3 + 1);
             for (int k = 0; k < numConnections; k++) {
                 int neighbor = nearbySystems[k];
 
-                // избежание дублирования соединений
+                // избегание дублирования соединений
                 if (addedConnections.count({i, neighbor}) ||
                     addedConnections.count({neighbor, i})) {
                     continue;
@@ -272,7 +300,7 @@ class Galaxy {
                 // запись соединения
                 addedConnections.insert({i, neighbor});
 
-                // зобавление линии между системами
+                // добавление линии между системами
                 Point start = systems[i].getLocation();
                 Point end = systems[neighbor].getLocation();
                 connections.emplace_back(start, end);
@@ -280,7 +308,34 @@ class Galaxy {
         }
     }
 
-    void printMap() const {
+    void drawLine(vector<vector<string>>& map, Point start, Point end) const {
+        int x0 = start.x, y0 = start.y;
+        int x1 = end.x, y1 = end.y;
+
+        // алгоритм Брезенхэма для рисования линии
+        int dx = abs(x1 - x0), sx = x0 < x1 ? 1 : -1;
+        int dy = -abs(y1 - y0), sy = y0 < y1 ? 1 : -1;
+        int err = dx + dy, e2;
+
+        while (true) {
+            if (x0 >= 0 && x0 < map.size() && y0 >= 0 && y0 < map[0].size() &&
+                map[x0][y0] == " ") {
+                map[x0][y0] = ".";  // отметка пути линии
+            }
+            if (x0 == x1 && y0 == y1) break;
+            e2 = 2 * err;
+            if (e2 >= dy) {
+                err += dy;
+                x0 += sx;
+            }
+            if (e2 <= dx) {
+                err += dx;
+                y0 += sy;
+            }
+        }
+    }
+
+    void generateMap() {
         const int maxHeight = 50;  // максимальная высота карты
         const int maxWidth = 150;  // максимальная ширина карты
 
@@ -316,48 +371,14 @@ class Galaxy {
             drawLine(map, start, end);
         }
 
-        // печатаем карту
-        for (const auto& row : map) {
-            for (const auto& cell : row) {
-                cout << cell;
-            }
-            cout << endl;
-        }
-    }
-
-   private:
-    void drawLine(vector<vector<string>>& map, Point start, Point end) const {
-        int x0 = start.x, y0 = start.y;
-        int x1 = end.x, y1 = end.y;
-
-        // алгоритм Брезенхэма для рисования линии
-        int dx = abs(x1 - x0), sx = x0 < x1 ? 1 : -1;
-        int dy = -abs(y1 - y0), sy = y0 < y1 ? 1 : -1;
-        int err = dx + dy, e2;
-
-        while (true) {
-            if (x0 >= 0 && x0 < map.size() && y0 >= 0 && y0 < map[0].size() &&
-                map[x0][y0] == " ") {
-                map[x0][y0] = ".";  // отметка пути линии
-            }
-            if (x0 == x1 && y0 == y1) break;
-            e2 = 2 * err;
-            if (e2 >= dy) {
-                err += dy;
-                x0 += sx;
-            }
-            if (e2 <= dx) {
-                err += dx;
-                y0 += sy;
-            }
-        }
+        this->map = map;
     }
 };
 
 int main(int argc, char const* argv[]) {
     srand(time(NULL));
     // заполняет список имен
-    // временно, потом буду брать мз файла
+    // временно, потом буду брать из файла
     starNames.push_back("Alpha Centauri");
     starNames.push_back("Barnard's Star");
     starNames.push_back("Betelgeuse");
