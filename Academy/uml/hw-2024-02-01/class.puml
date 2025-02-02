@@ -1,0 +1,128 @@
+@startuml Ad-Astra-Classes
+
+' Enums
+enum habitableType {
+    Пустынный
+    Сухой
+    Саванна
+    Океанический
+    Континентальный
+    Тропический
+    Арктический
+    Горный
+    Тундра
+}
+
+enum resource {
+    Минералы
+    Энергия
+}
+
+' Classes and Structs
+class Resources {
+    + resource name
+    + int amount
+    + Resources(resource name, int amount)
+    + int getPrice() const
+}
+
+class MapPoint {
+    + int x
+    + int y
+    + MapPoint(int x, int y)
+    + MapPoint()
+}
+
+struct Line {
+    + MapPoint start
+    + MapPoint end
+    + Line(MapPoint s, MapPoint e)
+}
+
+abstract class "CelestialBody" {
+    # string name
+    # int size
+    # vector<Resources> resources
+    + CelestialBody(string name, int size, vector<Resources> resources)
+    + {abstract} void fill()
+    + vector<Resources> getResources()
+    + string getName() const
+    + int getSize() const
+}
+
+class Planet {
+    - bool habitable
+    - int population
+    - habitableType type
+    + Planet(string name, bool isHabitable = false)
+    + void fill() override
+    + bool isHabitable() const
+    + int getPopulation() const
+    + vector<Building> getBuildings() const
+    + habitableType getType() const
+}
+
+class System {
+    - vector<Planet> planets
+    - MapPoint location
+    - int id
+    - int power
+    + System(string name, int size)
+    + void fill() override
+    + bool hasHabitables() const
+    + void setLocation(MapPoint point)
+    + void setId(int id)
+    + void setPower(int power)
+    + int getId() const
+    + int getPower() const
+    + MapPoint getLocation() const
+    + vector<Planet> getPlanets() const
+}
+
+class Galaxy {
+    - int size
+    - vector<System*> systems
+    - vector<Line> connections
+    + Galaxy(int size)
+    + void fill()
+    + vector<System*> getSystems() const
+    + vector<Line> getConnections() const
+    + int getSize() const
+    + void clear()
+    # void connectSystems()
+    # void drawLine(vector<vector<string>>& map, MapPoint start, MapPoint end) const
+}
+
+class Empire {
+    - int id
+    - string name
+    - habitableType preferredType
+    - vector<System*> systems
+    + Empire(int id, string name, habitableType preferredType, System *HomeSystem)
+    + Empire(const Empire& other)
+    + Empire(int id)
+    + int getId() const
+    + string getName() const
+    + habitableType getPreferredType() const
+    + vector<System*> getSystems() const
+    + void fill(Galaxy &galaxy)
+    + void addSystem(System* system)
+    + void removeSystem(System *system)
+    + Empire& operator=(const Empire& other)
+    + ~Empire()
+}
+
+' Inheritance
+CelestialBody <|-- Planet
+CelestialBody <|-- System
+
+' Relationships
+CelestialBody "1" *-- "0..*" Resources
+Line "1" o-- "2" MapPoint
+System "1" *-- "1..*" Planet
+System "1" o-- "1" MapPoint
+Galaxy "1" *-- "1..*" System
+Galaxy "1" *-- "0..*" Line
+Empire "1" o-- "0..*" System
+
+@enduml
