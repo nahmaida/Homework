@@ -8,3 +8,4 @@ Languages used:
 * SQL (sqlite3)
 * HTML/CSS (+ jinja)
 * JS
+* plantUML
