@@ -1,0 +1,44 @@
+@startuml School_State
+state "Вход в школу" as enter
+state "На уроке" as lesson
+state "На перемене" as onbreak
+state "Выход из школы" as exit
+[*] --> enter
+
+enter ---> lesson : Начало урока
+lesson --> onbreak : Звонок на перемену [Прошло 40 минут]
+lesson --> exit : Конец учебного дня
+onbreak --> exit : Побег
+
+enter : undress /Снять верхнюю одежду
+enter: goToLesson /Пойти на урок
+
+state lesson {
+    state "Урок математики" as math
+    state "Урок истории" as his
+    state "Урок русского" as rus
+    state "Урок биологии" as bio
+    state "Урок физкультуры" as pe
+
+    pe: run /Побегать
+    bio: eatAPlant /Сьесть случайное растение
+    rus: writeAnEssay /Написать эссе
+    his: makeMaps /Нарисовать карту 01.01.1936
+    math: solveEq /Решать уравнения
+
+
+    [*] --> math
+    math --> his : Смена предмета [была перемена]                 \n/ сменить кабинет
+    his --> rus : Смена предмета [была перемена]\n/ сменить кабинет
+    rus --> bio : Смена предмета [была перемена]\n/ сменить кабинет
+    bio --> pe : Смена предмета [была перемена]\n/ сменить кабинет
+    pe --> [*] : Конец уроков
+    
+    onbreak --> [H] : Звонок на урок [Прошло 15 минут]
+}
+
+exit : dressup /Одеть верхнюю одежду
+exit: leave /Пойти домой
+
+exit --> [*]
+@enduml
