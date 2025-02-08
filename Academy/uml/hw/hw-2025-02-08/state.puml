@@ -1,0 +1,42 @@
+@startuml "ATM State"
+state "Вставка Карты" as insert
+state "Ввод Пинкода" as enterPIN
+state "Неверный Пинкод" as incorrectPIN
+state "Возврат Карты" as return
+state "Диалог с Пользователем" as diag
+state "Выдача Денег" as withdraw
+state "Вложение Денег" as deposit
+state "Прервание" as break
+state "Сломанная Карта" as broken
+state "Карта Украдена" as stolen
+[*] --> insert
+
+insert --> enterPIN : [Карта вставлена]
+enterPIN --> incorrectPIN : [Неверный пинкод]
+incorrectPIN --> enterPIN : Повторный ввод
+incorrectPIN --> return : [Превышено количество попыток]
+
+enterPIN --> diag : [Верный пинкод]
+diag --> withdraw : [Выбрана выдача денег]
+diag --> deposit : [Выбрано вложение денег]
+
+withdraw --> [*] : Завершение операции [на карте есть деньги]\n/ выдача суммы
+deposit --> [*] : Завершение операции / ввод суммы
+
+diag --> return : [Пользователь забыл пинкод]
+return --> [*] : Карта возвращена
+
+diag --> break : [Пользователь прерывает операцию]
+break --> [*] : Взаимодействие прекращено
+
+insert --> broken : [Карта повреждена]
+broken --> [*] : Карта изъята
+
+insert --> stolen : [Карта украдена]
+stolen --> [*] : Карта изъята
+
+diag: Получение данных / выбор операции
+withdraw: Получение данных / выбор суммы
+deposit: Получение данных / выбор суммы
+
+@enduml
